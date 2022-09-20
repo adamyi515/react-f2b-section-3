@@ -1,11 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Components
 import FeedbackItem from './FeedbackItem';
 
-const FeedbackList = (props) => {
-    const { feedbackData } = props;
-
+const FeedbackList = ({ feedbackData }) => {
     if(!feedbackData || feedbackData.length === 0){
         return <h1>No data available.</h1>
     }
@@ -20,5 +19,16 @@ const FeedbackList = (props) => {
         </div>
     )
 }
+
+FeedbackList.propTypes = {
+    feedbackData: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            rating: PropTypes.number.isRequired,
+            text: PropTypes.string.isRequired
+        })
+    )
+}
+
 
 export default FeedbackList;
