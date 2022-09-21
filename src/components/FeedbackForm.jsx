@@ -13,18 +13,18 @@ const FeedbackForm = ( { handleAdd }) => {
 
     // Event Handlers
     const handleChange = (ev) => {
+        setText(() => ev.target.value);
         // Text input validation.
-        if(text === ''){
+        if(ev.target.value === ''){
             setBtnDisabled(true);
-        } else if (text !== '' && text.trim().length <= 10){
+            setMessage('');
+        } else if (ev.target.value !== '' && ev.target.value.trim().length < 10){
             setBtnDisabled(true);
             setMessage('Text must be at least 10 Characters.');
         } else {
             setBtnDisabled(false);
             setMessage(null);
         }
-
-        setText(() => ev.target.value);
     }
 
     const handleSubmit = (ev) => {
@@ -37,7 +37,7 @@ const FeedbackForm = ( { handleAdd }) => {
             }
 
             handleAdd(newFeedback);
-            
+
             setText('');
         }
     }
