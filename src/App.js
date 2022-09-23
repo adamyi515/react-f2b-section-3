@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import FeedbackData from './data/feedback.data';
+
+
+// Context API (state management)
+import { FeedbackProvider } from './context/FeedbackContext';
 
 // Components
 import Header from './components/Header';
@@ -14,36 +16,27 @@ import AboutIconLink from './components/AboutIconLink';
 import AboutPage from './pages/AboutPage';
 
 const App = () => {
-    const [feedbackData, setFeedbackData] = useState(FeedbackData);
-
-    // Event Handlers
-    const handleDelete = (id) => {
-        setFeedbackData(feedbackData.filter((item) => item.id !== id));
-    }
-
-    const handleAdd = (newFeedback) => {
-        newFeedback.id = uuidv4(); 
-        setFeedbackData([newFeedback, ...feedbackData]);
-    }
-
+ 
     return(
-        <Router>
-            <Header />
-            <div className='container'>
-                <Routes>
-                    <Route path='/' element={
-                        <>
-                            <FeedbackForm handleAdd={handleAdd} />
-                            <FeedbackStat feedbackData={feedbackData} />
-                            <FeedbackList feedbackData={feedbackData}  handleDelete={handleDelete} />
-                        </>
-                    }/>
-                    <Route path='/about' element={ <AboutPage /> }/>
-                </Routes>
+        <FeedbackProvider>
+            <Router>
+                <Header />
+                <div className='container'>
+                    <Routes>
+                        <Route path='/' element={
+                            <>
+                                <FeedbackForm />
+                                <FeedbackStat />
+                                <FeedbackList />
+                            </>
+                        }/>
+                        <Route path='/about' element={ <AboutPage /> }/>
+                    </Routes>
 
-                <AboutIconLink />
-            </div>
-        </Router>
+                    <AboutIconLink />
+                </div>
+            </Router>
+        </FeedbackProvider>
     )
 }
 
