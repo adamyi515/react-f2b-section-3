@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 // Context
 import FeedbackContext from '../context/FeedbackContext';
@@ -13,7 +13,17 @@ const FeedbackForm = () => {
     const [rating, setRating] = useState(10);
     const [btnDisabled, setBtnDisabled] = useState(true);
     const [message, setMessage] = useState('');
-    const { addFeedback } = useContext(FeedbackContext);
+    const { addFeedback, feedbackEdit } = useContext(FeedbackContext);
+
+    // Lifecycle methods
+    useEffect(() => {
+        if(feedbackEdit.edit === true){
+            setBtnDisabled(false);
+            setText(feedbackEdit.item.text);
+            setRating(feedbackEdit.item.rating);
+        }
+    }, [feedbackEdit])
+
 
     // Event Handlers
     const handleChange = (ev) => {
@@ -41,7 +51,6 @@ const FeedbackForm = () => {
             }
 
             addFeedback(newFeedback);
-
             setText('');
         }
     }
