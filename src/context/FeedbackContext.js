@@ -22,6 +22,18 @@ export const FeedbackProvider = ({ children }) => {
         setFeedbackData(feedbackData.filter((item) => item.id !== id));
     }
 
+    // Update the actual data (feedback array)
+    const updateFeedback = (id, updatedItem) => {
+        setFeedbackData(feedbackData.map((item) => {
+            if(item.id === id){
+                return {...item, ...updatedItem}
+            } else {
+                return item;
+            }
+        }))
+    }
+
+    // Grab the feedback item and insert the data into the Form.
     const editFeedback = (item) => {
         setFeedbackEdit({
             item,
@@ -32,7 +44,7 @@ export const FeedbackProvider = ({ children }) => {
     return(
         <FeedbackContext.Provider value={{
             feedbackData, feedbackEdit, 
-            addFeedback, deleteFeedback, editFeedback
+            addFeedback, deleteFeedback, editFeedback, updateFeedback
         }}>
             { children }
         </FeedbackContext.Provider>

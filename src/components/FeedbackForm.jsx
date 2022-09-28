@@ -13,7 +13,9 @@ const FeedbackForm = () => {
     const [rating, setRating] = useState(10);
     const [btnDisabled, setBtnDisabled] = useState(true);
     const [message, setMessage] = useState('');
-    const { addFeedback, feedbackEdit } = useContext(FeedbackContext);
+
+    // State and methods from Context
+    const { addFeedback, updateFeedback, feedbackEdit } = useContext(FeedbackContext);
 
     // Lifecycle methods
     useEffect(() => {
@@ -44,13 +46,21 @@ const FeedbackForm = () => {
     const handleSubmit = (ev) => {
         ev.preventDefault();
 
+        // Text must be character of 10 in order to trigger submission event.
         if(text.trim().length >= 10) {
             const newFeedback = {
                 text,
                 rating
             }
 
-            addFeedback(newFeedback);
+            // If this is an edit, then update it rather than adding new item.
+            if(feedbackEdit.edit === true){
+                updateFeedback(feedbackEdit.item.id, newFeedback);
+            } else {
+                // Add new item.
+                addFeedback(newFeedback);
+            }
+
             setText('');
         }
     }
