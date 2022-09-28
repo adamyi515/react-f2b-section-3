@@ -8,21 +8,28 @@ import FeedbackContext from '../context/FeedbackContext';
 import FeedbackItem from './FeedbackItem';
 
 const FeedbackList = () => {
-    const { feedbackData } = useContext(FeedbackContext);
+    const { feedbackData, isLoading } = useContext(FeedbackContext);
     
-    if(!feedbackData || feedbackData.length === 0){
+    if(!isLoading && (!feedbackData || feedbackData.length === 0)){
         return <h1>No data available.</h1>
     }
 
-    return(
-        <div className='feedback-list'>
-            {feedbackData.map((item) => {
-                return (
-                    <FeedbackItem key={item.id} item={item}/>
-                )
-            })}
-        </div>
-    )
+    if(isLoading){
+        return(
+            <h1>Loading....</h1>
+        )
+    } else {
+        return(
+            <div className='feedback-list'>
+                {feedbackData.map((item) => {
+                    return (
+                        <FeedbackItem key={item.id} item={item}/>
+                    )
+                })}
+            </div>
+        )
+    }
+    
 }
 
 
